@@ -61,100 +61,6 @@ body {
   min-height: 100vh;
 }
 
-/* ── Auth screens ────────────────────────────────────────────────────────── */
-.auth-wrap {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem 1rem;
-  background: linear-gradient(135deg, #0d0f10 0%, #1a2030 100%);
-}
-
-.auth-card {
-  background: #fff;
-  border-radius: var(--radius-lg);
-  padding: 2.5rem 2rem;
-  width: 100%;
-  max-width: 400px;
-  box-shadow: var(--shadow-lg);
-}
-
-.auth-logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 2rem;
-}
-
-.auth-logo-icon {
-  width: 38px; height: 38px;
-  background: var(--ink);
-  border-radius: 10px;
-  display: flex; align-items: center; justify-content: center;
-}
-
-.auth-logo-icon svg { width: 20px; height: 20px; fill: #fff; }
-.auth-logo-name { font-size: 17px; font-weight: 600; letter-spacing: -0.3px; }
-.auth-logo-sub  { font-size: 11px; color: var(--ink-3); margin-top: 1px; }
-
-.auth-title { font-size: 22px; font-weight: 600; margin-bottom: .4rem; }
-.auth-sub   { font-size: 14px; color: var(--ink-3); margin-bottom: 1.75rem; }
-
-.field       { margin-bottom: 1rem; }
-.field label { display: block; font-size: 13px; font-weight: 500; margin-bottom: .35rem; color: var(--ink-2); }
-
-.field input {
-  width: 100%;
-  padding: .65rem .85rem;
-  border: 1.5px solid var(--line-2);
-  border-radius: var(--radius-sm);
-  font-family: var(--font);
-  font-size: 14px;
-  color: var(--ink);
-  background: var(--paper);
-  transition: border-color .15s;
-}
-.field input:focus { outline: none; border-color: var(--blue); background: #fff; }
-
-.btn-primary {
-  width: 100%;
-  padding: .75rem;
-  background: var(--ink);
-  color: #fff;
-  border: none;
-  border-radius: var(--radius-sm);
-  font-family: var(--font);
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: opacity .15s;
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-}
-.btn-primary:hover   { opacity: .88; }
-.btn-primary:disabled{ opacity: .5; cursor: not-allowed; }
-
-.auth-switch {
-  text-align: center;
-  margin-top: 1.25rem;
-  font-size: 13.5px;
-  color: var(--ink-3);
-}
-.auth-switch a { color: var(--blue); cursor: pointer; text-decoration: none; font-weight: 500; }
-.auth-switch a:hover { text-decoration: underline; }
-
-.error-msg {
-  background: var(--red-bg);
-  border: 1px solid var(--red-line);
-  border-radius: var(--radius-sm);
-  padding: .6rem .85rem;
-  font-size: 13px;
-  color: var(--red);
-  margin-bottom: 1rem;
-  display: none;
-}
-.error-msg.show { display: block; }
-
 /* ── App shell ───────────────────────────────────────────────────────────── */
 .app { display: flex; min-height: 100vh; }
 
@@ -887,71 +793,8 @@ textarea:focus, .log-textarea:focus {
 </head>
 <body>
 
-<!-- ─── Auth Screens ──────────────────────────────────────────────────────── -->
-<div id="auth-screen" class="auth-wrap">
-  <div class="auth-card">
-    <div class="auth-logo">
-      <div class="auth-logo-icon">
-        <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-      </div>
-      <div>
-        <div class="auth-logo-name">RCA Agent</div>
-        <div class="auth-logo-sub">Root Cause Analysis</div>
-      </div>
-    </div>
-
-    <!-- Login -->
-    <div id="login-form">
-      <div class="auth-title">Sign in</div>
-      <div class="auth-sub">Analyse problems. Find root causes. Ship fixes.</div>
-      <div class="error-msg" id="login-err"></div>
-      <div class="field">
-        <label>Email</label>
-        <input type="email" id="login-email" placeholder="you@example.com" autocomplete="email">
-      </div>
-      <div class="field">
-        <label>Password</label>
-        <input type="password" id="login-pass" placeholder="••••••••" autocomplete="current-password">
-      </div>
-      <button class="btn-primary" id="login-btn" onclick="doLogin()">
-        <span class="spin" id="login-spin"></span>
-        Sign in
-      </button>
-      <div class="auth-switch">
-        Don't have an account? <a onclick="showRegister()">Create one</a>
-      </div>
-    </div>
-
-    <!-- Register -->
-    <div id="register-form" style="display:none">
-      <div class="auth-title">Create account</div>
-      <div class="auth-sub">Start finding root causes in seconds.</div>
-      <div class="error-msg" id="reg-err"></div>
-      <div class="field">
-        <label>Full name</label>
-        <input type="text" id="reg-name" placeholder="Your name" autocomplete="name">
-      </div>
-      <div class="field">
-        <label>Email</label>
-        <input type="email" id="reg-email" placeholder="you@example.com" autocomplete="email">
-      </div>
-      <div class="field">
-        <label>Password</label>
-        <input type="password" id="reg-pass" placeholder="Min 6 characters" autocomplete="new-password">
-      </div>
-      <button class="btn-primary" id="reg-btn" onclick="doRegister()">
-        <span class="spin" id="reg-spin"></span>
-        Create account
-      </button>
-      <div class="auth-switch">
-        Already have an account? <a onclick="showLogin()">Sign in</a>
-      </div>
-    </div>
-  </div>
-</div>
-
 <!-- ─── App ───────────────────────────────────────────────────────────────── -->
-<div id="app-screen" class="app" style="display:none">
+<div id="app-screen" class="app">
 
   <!-- Sidebar -->
   <aside class="sidebar" id="sidebar">
@@ -982,16 +825,7 @@ textarea:focus, .log-textarea:focus {
     </nav>
 
     <div class="sidebar-foot">
-      <div class="user-pill">
-        <div class="user-avatar" id="user-avatar">?</div>
-        <div>
-          <div class="user-name" id="user-name-display">—</div>
-          <div class="user-email" id="user-email-display">—</div>
-        </div>
-        <button class="logout-btn" onclick="doLogout()" title="Sign out">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-        </button>
-      </div>
+      <div style="padding:.55rem .75rem;font-size:12px;color:rgba(255,255,255,0.35);">Powered by Groq · Llama 3</div>
     </div>
   </aside>
 
@@ -1105,96 +939,15 @@ textarea:focus, .log-textarea:focus {
 <div class="toast-wrap" id="toast-wrap"></div>
 
 <script>
-// ── State ───────────────────────────────────────────────────────────────────
-var API   = '';   // same origin
-var token = localStorage.getItem('rca_token');
-var user  = JSON.parse(localStorage.getItem('rca_user') || 'null');
+// ── State ────────────────────────────────────────────────────────────────────
+var API           = '';   // same origin
 var currentMethod = '5whys';
-var logsOpen = false;
+var logsOpen      = false;
 
-// ── Boot ────────────────────────────────────────────────────────────────────
+// ── Boot ─────────────────────────────────────────────────────────────────────
 (function() {
-  if (token && user) {
-    showApp();
-  } else {
-    document.getElementById('auth-screen').style.display = 'flex';
-  }
-})();
-
-function showApp() {
-  document.getElementById('auth-screen').style.display = 'none';
-  document.getElementById('app-screen').style.display  = 'flex';
-  document.getElementById('user-name-display').textContent  = user.name;
-  document.getElementById('user-email-display').textContent = user.email;
-  document.getElementById('user-avatar').textContent = user.name.charAt(0).toUpperCase();
   loadSidebarHistory();
-}
-
-// ── Auth ────────────────────────────────────────────────────────────────────
-function showRegister() {
-  document.getElementById('login-form').style.display    = 'none';
-  document.getElementById('register-form').style.display = 'block';
-}
-
-function showLogin() {
-  document.getElementById('register-form').style.display = 'none';
-  document.getElementById('login-form').style.display    = 'block';
-}
-
-async function doLogin() {
-  var email = document.getElementById('login-email').value.trim();
-  var pass  = document.getElementById('login-pass').value;
-  var errEl = document.getElementById('login-err');
-  errEl.classList.remove('show');
-
-  if (!email || !pass) { errEl.textContent = 'Please fill all fields.'; errEl.classList.add('show'); return; }
-
-  setLoading('login-btn', 'login-spin', true);
-  try {
-    var res  = await api('/api/auth/login', 'POST', { email, password: pass });
-    token = res.token; user = res.user;
-    localStorage.setItem('rca_token', token);
-    localStorage.setItem('rca_user', JSON.stringify(user));
-    showApp();
-  } catch(e) {
-    errEl.textContent = e.message || 'Login failed.';
-    errEl.classList.add('show');
-  } finally {
-    setLoading('login-btn', 'login-spin', false);
-  }
-}
-
-async function doRegister() {
-  var name  = document.getElementById('reg-name').value.trim();
-  var email = document.getElementById('reg-email').value.trim();
-  var pass  = document.getElementById('reg-pass').value;
-  var errEl = document.getElementById('reg-err');
-  errEl.classList.remove('show');
-
-  if (!name || !email || !pass) { errEl.textContent = 'Please fill all fields.'; errEl.classList.add('show'); return; }
-
-  setLoading('reg-btn', 'reg-spin', true);
-  try {
-    var res  = await api('/api/auth/register', 'POST', { name, email, password: pass });
-    token = res.token; user = res.user;
-    localStorage.setItem('rca_token', token);
-    localStorage.setItem('rca_user', JSON.stringify(user));
-    showApp();
-  } catch(e) {
-    errEl.textContent = e.message || 'Registration failed.';
-    errEl.classList.add('show');
-  } finally {
-    setLoading('reg-btn', 'reg-spin', false);
-  }
-}
-
-function doLogout() {
-  localStorage.removeItem('rca_token');
-  localStorage.removeItem('rca_user');
-  token = null; user = null;
-  document.getElementById('app-screen').style.display  = 'none';
-  document.getElementById('auth-screen').style.display = 'flex';
-}
+})();
 
 // ── Navigation ──────────────────────────────────────────────────────────────
 function showPage(name, btn) {
@@ -1497,8 +1250,7 @@ async function api(path, method, body) {
     method:  method || 'GET',
     headers: { 'Content-Type': 'application/json' }
   };
-  if (token)  opts.headers['Authorization'] = 'Bearer ' + token;
-  if (body)   opts.body = JSON.stringify(body);
+  if (body) opts.body = JSON.stringify(body);
 
   var res  = await fetch(API + path, opts);
   var data = await res.json();
@@ -1530,12 +1282,7 @@ function escHtml(str) {
     .replace(/"/g, '&quot;');
 }
 
-// Enter key on login/register
-document.addEventListener('keydown', function(e) {
-  if (e.key !== 'Enter') return;
-  if (document.getElementById('login-form').style.display !== 'none') doLogin();
-  else doRegister();
-});
+
 </script>
 </body>
 </html>
