@@ -1,0 +1,12 @@
+# Secrets
+backend/.env
+
+# Python
+backend/venv/
+backend/__pycache__/
+backend/*.pyc
+backend/rca_agent.db
+
+# OS
+.DS_Store
+Thumbs.db
