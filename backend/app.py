@@ -327,10 +327,8 @@ def health():
     return jsonify({"status": "ok", "model": GROQ_MODEL})
 
 # ─── Entry point ─────────────────────────────────────────────────────────────
-
 if __name__ == "__main__":
-    init_db()
-    port  = int(os.getenv("PORT", 5000))
+    port = int(os.getenv("PORT", 5000))
     debug = os.getenv("FLASK_ENV") == "development"
     print(f"✓ RCA Agent running on http://localhost:{port}")
     app.run(host="0.0.0.0", port=port, debug=debug)
