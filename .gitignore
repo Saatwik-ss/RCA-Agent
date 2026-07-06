@@ -1,12 +1,19 @@
-# Secrets
-backend/.env
-
-# Python
-backend/venv/
-backend/__pycache__/
-backend/*.pyc
-backend/rca_agent.db
-
-# OS
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.env
 .DS_Store
-Thumbs.db
+rca_agent.db
+venv/
+env/
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.coverage
+htmlcov/
+.venv
+*.sqlite
+*.sqlite3
+*.log
