@@ -1,16 +1,17 @@
 """
 RCA Agent - Flask Backend (no auth)
-Uses Groq API for LLM calls, SQLite for storage.
+Uses Groq API for LLM calls, Supabase (PostgreSQL) for storage.
 """
 
 import os
 import json
-import sqlite3
 import time
 from datetime import datetime
 from flask import Flask, request, jsonify, send_from_directory, g
 from flask_cors import CORS
 import requests
+import psycopg2
+import psycopg2.extras
 
 app = Flask(__name__, static_folder="../frontend", static_url_path="")
 CORS(app)
@@ -20,41 +21,42 @@ load_dotenv()
 # ─── Config ───────────────────────────────────────────────────────────────────
 GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
 GROQ_MODEL   = os.getenv("GROQ_MODEL", "llama3-70b-8192")
-DB_PATH      = os.getenv("DB_PATH", "rca_agent.db")
+DATABASE_URL = os.getenv("DATABASE_URL", "")
 GROQ_URL     = "https://api.groq.com/openai/v1/chat/completions"
 
-# Fixed guest user — no login required
 GUEST_USER_ID = 1
 
 # ─── Database ─────────────────────────────────────────────────────────────────
 def get_db():
     if "db" not in g:
-        g.db = sqlite3.connect(DB_PATH, detect_types=sqlite3.PARSE_DECLTYPES)
-        g.db.row_factory = sqlite3.Row
+        g.db = psycopg2.connect(DATABASE_URL, cursor_factory=psycopg2.extras.RealDictCursor)
+        g.db.autocommit = False
     return g.db
 
 @app.teardown_appcontext
 def close_db(e=None):
     db = g.pop("db", None)
-    if db:
+    if db and not db.closed:
         db.close()
 
 def init_db():
-    db = sqlite3.connect(DB_PATH)
-    db.executescript("""
+    conn = psycopg2.connect(DATABASE_URL)
+    cur  = conn.cursor()
+    cur.execute("""
         CREATE TABLE IF NOT EXISTS queries (
-            id           INTEGER PRIMARY KEY AUTOINCREMENT,
+            id           SERIAL PRIMARY KEY,
             user_id      INTEGER NOT NULL DEFAULT 1,
             method       TEXT    NOT NULL,
             problem_text TEXT    NOT NULL,
             log_input    TEXT,
             result       TEXT    NOT NULL,
             confidence   REAL,
-            created_at   TEXT    DEFAULT (datetime('now'))
+            created_at   TIMESTAMP DEFAULT NOW()
         );
     """)
-    db.commit()
-    db.close()
+    conn.commit()
+    cur.close()
+    conn.close()
     print("✓ Database initialised")
 
 # ─── Groq LLM call ────────────────────────────────────────────────────────────
@@ -261,15 +263,17 @@ def analyse():
         else:
             result = run_5whys(problem, context)
 
-        db = get_db()
-        db.execute(
+        db  = get_db()
+        cur = db.cursor()
+        cur.execute(
             """INSERT INTO queries
                (user_id, method, problem_text, log_input, result, confidence)
-               VALUES (?, ?, ?, ?, ?, ?)""",
+               VALUES (%s, %s, %s, %s, %s, %s)""",
             (GUEST_USER_ID, method, problem, log_input or None,
              json.dumps(result), result.get("confidence"))
         )
         db.commit()
+        cur.close()
 
         return jsonify({"ok": True, "result": result})
 
@@ -284,22 +288,28 @@ def analyse():
 
 @app.route("/api/history", methods=["GET"])
 def history():
-    db   = get_db()
-    rows = db.execute(
+    db  = get_db()
+    cur = db.cursor()
+    cur.execute(
         """SELECT id, method, problem_text, confidence, created_at
-           FROM queries WHERE user_id = ?
+           FROM queries WHERE user_id = %s
            ORDER BY created_at DESC LIMIT 50""",
         (GUEST_USER_ID,)
-    ).fetchall()
+    )
+    rows = cur.fetchall()
+    cur.close()
     return jsonify([dict(r) for r in rows])
 
 @app.route("/api/history/<int:qid>", methods=["GET"])
 def get_query(qid):
     db  = get_db()
-    row = db.execute(
-        "SELECT * FROM queries WHERE id = ? AND user_id = ?",
+    cur = db.cursor()
+    cur.execute(
+        "SELECT * FROM queries WHERE id = %s AND user_id = %s",
         (qid, GUEST_USER_ID)
-    ).fetchone()
+    )
+    row = cur.fetchone()
+    cur.close()
     if not row:
         return jsonify({"error": "Not found"}), 404
     r = dict(row)
@@ -308,9 +318,11 @@ def get_query(qid):
 
 @app.route("/api/history/<int:qid>", methods=["DELETE"])
 def delete_query(qid):
-    db = get_db()
-    db.execute("DELETE FROM queries WHERE id = ? AND user_id = ?", (qid, GUEST_USER_ID))
+    db  = get_db()
+    cur = db.cursor()
+    cur.execute("DELETE FROM queries WHERE id = %s AND user_id = %s", (qid, GUEST_USER_ID))
     db.commit()
+    cur.close()
     return jsonify({"ok": True})
 
 # ─── Routes: Static ───────────────────────────────────────────────────────────
