@@ -24,6 +24,10 @@ GROQ_MODEL   = os.getenv("GROQ_MODEL", "llama3-70b-8192")
 DATABASE_URL = os.getenv("DATABASE_URL", "")
 GROQ_URL     = "https://api.groq.com/openai/v1/chat/completions"
 
+if not DATABASE_URL:
+    raise RuntimeError("DATABASE_URL environment variable is not set!")
+GROQ_URL     = "https://api.groq.com/openai/v1/chat/completions"
+
 GUEST_USER_ID = 1
 
 # ─── Database ─────────────────────────────────────────────────────────────────
@@ -340,8 +344,11 @@ def health():
 
 # ─── Entry point ─────────────────────────────────────────────────────────────
 
+# python app.py
+# (local dev) or `gunicorn app:app` (Render/production).
+init_db()
+
 if __name__ == "__main__":
-    init_db()
     port  = int(os.getenv("PORT", 5000))
     debug = os.getenv("FLASK_ENV") == "development"
     print(f"✓ RCA Agent running on http://localhost:{port}")
