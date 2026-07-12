@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-/* ── Design tokens ─────────────────────────────────────────────────────────── */
+/*  Design tokens ─ */
 :root {
   --ink:       #0d0f10;
   --ink-2:     #3a3d40;
@@ -34,7 +34,7 @@ body {
   min-height: 100vh;
 }
 
-/* ── Layout ────────────────────────────────────────────────────────────────── */
+/*  Layout  */
 .app { display: flex; min-height: 100vh; }
 
 .main {
@@ -69,7 +69,7 @@ body {
   flex: 1;
 }
 
-/* ── Panels ────────────────────────────────────────────────────────────────── */
+/*  Panels  */
 .panel {
   background: #fff;
   border: 1px solid var(--line);
@@ -97,7 +97,7 @@ body {
   padding: 1.5rem;
 }
 
-/* ── Input form ────────────────────────────────────────────────────────────── */
+/*  Input form  */
 .form-group {
   margin-bottom: 1.25rem;
 }
@@ -106,7 +106,11 @@ body {
   display: block;
   font-size: 13px;
   font-weight: 500;
+
   margin-bottom: 0.5rem;
+
+
+
   color: var(--ink);
 }
 
@@ -115,6 +119,7 @@ textarea, input[type="text"], select {
   padding: 0.75rem;
   border: 1px solid var(--line);
   border-radius: 6px;
+
   font-family: var(--font);
   font-size: 14px;
   resize: vertical;
@@ -132,29 +137,31 @@ select:focus {
   box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.08);
 }
 
-/* ── Buttons ───────────────────────────────────────────────────────────────── */
+/*  Buttons ─ */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
+
   padding: 0.6rem 1.2rem;
   border: none;
+
   border-radius: 6px;
+
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.12s;
 }
-
 .btn-primary {
   background: var(--blue);
   color: white;
 }
-
 .btn-primary:hover {
   background: #0f47a6;
   transform: translateY(-1px);
+  
   box-shadow: 0 4px 12px rgba(26, 86, 219, 0.2);
 }
 
@@ -172,51 +179,54 @@ select:focus {
   cursor: not-allowed;
 }
 
+
 .sample-log-action {
   display: flex;
   justify-content: flex-end;
   margin-top: 0.55rem;
 }
-
 .sample-log-button {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
   padding: 0.42rem 0.72rem;
+
   border: 1px dashed rgba(26, 86, 219, 0.45);
   border-radius: 999px;
   background: rgba(26, 86, 219, 0.045);
   color: #1748ad;
+
   font: 500 12px var(--font);
   letter-spacing: 0.01em;
   cursor: pointer;
   transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
 }
 
+
+
 .sample-log-button svg {
   width: 14px;
   height: 14px;
   stroke-width: 2;
 }
-
 .sample-log-button:hover {
   background: rgba(26, 86, 219, 0.1);
   border-color: var(--blue);
   transform: translateY(-1px);
   box-shadow: 0 3px 8px rgba(26, 86, 219, 0.12);
 }
-
 .sample-log-button:focus-visible {
   outline: none;
   box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.18);
 }
 
-/* ── Processing steps ─────────────────────────────────────────────────────── */
+
+/*  Processing steps ─ */
 .processing-panel {
   display: none;
   margin-bottom: 1.5rem;
-}
 
+}
 .proc-steps {
   display: flex;
   flex-direction: column;
@@ -233,6 +243,8 @@ select:focus {
   transition: all 0.2s;
 }
 
+
+
 .proc-step.active {
   background: rgba(26, 86, 219, 0.08);
   border-left: 3px solid var(--blue);
@@ -242,12 +254,15 @@ select:focus {
   opacity: 0.6;
 }
 
+
+
 .proc-step-icon {
   width: 24px;
   height: 24px;
   border-radius: 50%;
   display: flex;
   align-items: center;
+
   justify-content: center;
   font-size: 12px;
   font-weight: 600;
@@ -255,18 +270,19 @@ select:focus {
   flex-shrink: 0;
   background: var(--ink-3);
 }
-
 .proc-step.active .proc-step-icon {
   background: var(--blue);
   animation: spin 1s linear infinite;
 }
-
 .proc-step.done .proc-step-icon {
   background: var(--green);
 }
 
+
+
 @keyframes spin {
   from { transform: rotate(0deg); }
+
   to { transform: rotate(360deg); }
 }
 
@@ -276,7 +292,7 @@ select:focus {
   color: var(--ink);
 }
 
-/* ── Clarification dialog ──────────────────────────────────────────────────── */
+/*  Clarification dialog  */
 .clarification-panel {
   display: none;
   margin-bottom: 1.5rem;
@@ -284,10 +300,11 @@ select:focus {
   background: rgba(254, 243, 219, 0.5);
 }
 
+
+
 .clarification-panel.show {
   display: block;
 }
-
 .clarification-header {
   display: flex;
   align-items: center;
@@ -301,12 +318,12 @@ select:focus {
   color: var(--amber);;
 }
 
+
 .clarification-title {
   font-size: 14px;
   font-weight: 600;
   color: var(--amber);
 }
-
 .clarification-question {
   font-size: 14px;
   color: var(--ink-2);
@@ -320,7 +337,6 @@ select:focus {
 .clarification-input-group {
   margin-bottom: 1rem;
 }
-
 .clarification-response {
   width: 100%;
   padding: 0.75rem;
@@ -330,7 +346,6 @@ select:focus {
   font-size: 14px;
   min-height: 80px;
 }
-
 .clarification-actions {
   display: flex;
   gap: 0.75rem;
@@ -343,12 +358,13 @@ select:focus {
 
 .result-panel.show {
   display: block;
+
 }
 
 .result-section {
   margin-bottom: 2rem;
-}
 
+}
 .result-section-label {
   font-size: 12px;
   font-weight: 600;
@@ -595,7 +611,7 @@ select:focus {
   margin-bottom: 0.5rem;
 }
 
-/* ── Toast ─────────────────────────────────────────────────────────────────── */
+/*  Toast ─ */
 .toast-wrap {
   position: fixed;
   bottom: 1.5rem;
@@ -628,7 +644,7 @@ select:focus {
   to { transform: translateX(0); opacity: 1; }
 }
 
-/* ── Sidebar (simple) ──────────────────────────────────────────────────────── */
+/*  Sidebar (simple)  */
 .sidebar {
   width: 260px;
   background: var(--ink);
@@ -879,7 +895,7 @@ function loadSampleLogs() {
 <div id="toast-wrap" class="toast-wrap"></div>
 
 <script>
-// ─── Config ───────────────────────────────────────────────────────────────────
+// ─ Config ─
 // Keep this empty because request paths already begin with '/'.  A value of '/'
 // would turn '/api/…' into '//api/…', which browsers treat as another host.
 var API = '';
@@ -887,10 +903,10 @@ var currentSessionId = '';
 var currentClarificationId = null;
 var preferences = { showKnowledge: true };
 
-// ─── State ────────────────────────────────────────────────────────────────────
+// ─ State 
 var analysisState = {};
 
-// ─── Processing animation ─────────────────────────────────────────────────────
+// ─ Processing animation ─
 function startProcessingAnim() {
   var steps = [
     { label: "Extracting entities from logs..." },
@@ -924,7 +940,7 @@ function startProcessingAnim() {
   return interval;
 }
 
-// ─── Analysis flow ────────────────────────────────────────────────────────────
+// ─ Analysis flow 
 async function runAnalysis() {
   var problem = document.getElementById('problem-text').value.trim();
   var logInput = document.getElementById('log-input').value.trim();
@@ -977,7 +993,7 @@ async function runAnalysis() {
   }
 }
 
-// ─── Clarification flow ───────────────────────────────────────────────────────
+// ─ Clarification flow ─
 function showClarification(state) {
   if (!state.chain || !state.chain.length) return;
 
@@ -1065,7 +1081,7 @@ async function skipClarification() {
   }
 }
 
-// ─── Rendering ────────────────────────────────────────────────────────────────
+// ─ Rendering 
 function renderReasoningChain(chain) {
   var html = '<div class="result-section"><div class="result-section-label">Reasoning so far</div>';
   html += '<div class="reasoning-chain">';
@@ -1228,7 +1244,7 @@ function renderKnowledgeSection(knowledge) {
   return html;
 }
 
-// ─── Utilities ────────────────────────────────────────────────────────────────
+// ─ Utilities 
 async function api(path, method, body) {
   var opts = {
     method: method || 'GET',
