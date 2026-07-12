@@ -1,7 +1,6 @@
 """
-RCA Agent v2 - Enhanced Backend
-Uses: Groq API (LLM), Supabase (PostgreSQL), Vector DB (knowledge graph)
-Features: Entity extraction, knowledge retrieval, interactive reasoning with clarifications
+RCA Agent
+Groq LLM, PostgreSQL), Vector DB : knowledge graph
 """
 
 import os
@@ -18,7 +17,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# ─── Config ───────────────────────────────────────────────────────────────────
+#  Config 
 GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
 GROQ_MODEL   = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
 DATABASE_URL = os.getenv("DATABASE_URL", "")
@@ -29,7 +28,7 @@ if not DATABASE_URL:
 
 GUEST_USER_ID = 1
 
-# ─── Database Setup ───────────────────────────────────────────────────────────
+#  Database Setup 
 app = Flask(__name__, static_folder="./frontend", static_url_path="")
 CORS(app)
 
@@ -97,7 +96,7 @@ def init_db():
     conn.close()
     print("✓ Database initialised with new schema")
 
-# ─── LLM Calls ────────────────────────────────────────────────────────────────
+#  LLM Calls 
 
 def call_groq(system_prompt: str, user_prompt: str, max_tokens: int = 800) -> dict:
     if not GROQ_API_KEY:
@@ -132,7 +131,7 @@ SYS_STRICT_JSON = (
     "No markdown, no extra keys, no explanation outside the JSON."
 )
 
-# ─── Entity Extraction ─────────────────────────────────────────────────────────
+#  Entity Extraction 
 
 def extract_entities(log_text: str, problem_text: str) -> dict:
     """
@@ -162,7 +161,7 @@ Output JSON (extract all that apply):
     )
     return result
 
-# ─── Knowledge Graph / Vector DB Query ────────────────────────────────────────
+#  Knowledge Graph / Vector DB Query 
 
 def mock_knowledge_base() -> dict:
     """
@@ -238,7 +237,7 @@ def retrieve_knowledge(entities: dict) -> dict:
         "total_matches": len(retrieved)
     }
 
-# ─── Interactive Reasoning with Clarifications ────────────────────────────────
+#  Interactive Reasoning with Clarifications 
 
 def ask_clarification(session_id: str, step: int, question: str) -> str:
     """
@@ -382,7 +381,7 @@ Output JSON:
     
     return state
 
-# ─── RCA Orchestrators ────────────────────────────────────────────────────────
+#  RCA Orchestrators 
 
 def run_enhanced_rca(problem_text: str, log_input: str = "", session_id: str = "") -> dict:
     """
@@ -539,7 +538,7 @@ Rules:
     state["actions"] = result.get("actions", [])
     return state
 
-# ─── Routes: Analysis ─────────────────────────────────────────────────────────
+#  Routes: Analysis 
 
 @app.route("/api/analyse", methods=["POST"])
 def analyse():
@@ -661,7 +660,7 @@ def submit_clarification():
     except Exception as e:
         return jsonify({"error": f"Clarification failed: {str(e)}"}), 500
 
-# ─── Routes: History ─────────────────────────────────────────────────────────
+#  Routes: History 
 
 @app.route("/api/history", methods=["GET"])
 def history():
@@ -707,7 +706,7 @@ def delete_query(qid):
     cur.close()
     return jsonify({"ok": True})
 
-# ─── Routes: Static ───────────────────────────────────────────────────────────
+#  Routes: Static 
 
 @app.route("/", defaults={"path": ""})
 @app.route("/<path:path>")
@@ -720,7 +719,7 @@ def serve(path):
 def health():
     return jsonify({"status": "ok", "model": GROQ_MODEL})
 
-# ─── Entry point ─────────────────────────────────────────────────────────────
+#  Entry point 
 
 init_db()
 
