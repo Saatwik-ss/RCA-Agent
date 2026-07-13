@@ -202,9 +202,9 @@ Output JSON:
 {{
   "actions": [
     {{"action": "what to do", "priority": "high|medium|low"}},
-    {{"action": "what to do", "priority": "high|medium|low"},
-    {{"action": "what to do", "priority": "high|medium|low"},
-    {{"action": "what to do", "priority": "high|medium|low"}
+    {{"action": "what to do", "priority": "high|medium|low"}},
+    {{"action": "what to do", "priority": "high|medium|low"}},
+    {{"action": "what to do", "priority": "high|medium|low"}}
   ]
 }}
 
