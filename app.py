@@ -201,10 +201,10 @@ Root cause: {state['root_cause']}
 Output JSON:
 {{
   "actions": [
-    {{"action": "what to do", "priority": "high|medium|low", "effort": "hours|days|weeks"}},
-    {{"action": "what to do", "priority": "high|medium|low", "effort": "hours|days|weeks"}},
-    {{"action": "what to do", "priority": "high|medium|low", "effort": "hours|days|weeks"}},
-    {{"action": "what to do", "priority": "high|medium|low", "effort": "hours|days|weeks"}}
+    {{"action": "what to do", "priority": "high|medium|low"}},
+    {{"action": "what to do", "priority": "high|medium|low"},
+    {{"action": "what to do", "priority": "high|medium|low"},
+    {{"action": "what to do", "priority": "high|medium|low"}
   ]
 }}
 
